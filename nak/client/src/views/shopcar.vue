@@ -56,7 +56,6 @@ export default {
     data() {
         return {
             count:'',
-            shp:'',
         }
     },    
     methods: {
@@ -87,9 +86,9 @@ export default {
            let msg="您确定想要清空购物车？"
            if(confirm(msg)==true){
             //当用户点击清空购物车，那么就让当前从缓存中拔下来的数组清空
-            this.shp=[];
+            this.$store.state.car=[];
             //再放回本地缓存
-            localStorage.setItem('car',this.shp)
+            localStorage.setItem('car',this.$store.state.car)
             
            }
         },
