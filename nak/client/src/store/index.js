@@ -15,6 +15,9 @@ export default new Vuex.Store({
     setUname(state,uname){
       state.uname=uname;
     },
+    logout(state){
+      state.car=[]
+    },
     addToCar(state,goodsInfo){ //点击加入购物车，把商品保存到store的car上
       let flag=false;//假设购物车中没有找到
       //如果购物车之前有商品，只需要更新数量，否则添加新的商品
@@ -38,7 +41,7 @@ export default new Vuex.Store({
     submit(context,user){
 			(async function(){
        var result= await axios.post('/user/login',`username=${user.username}&password=${user.password}`);
-       console.log(result.data.result)
+      //  console.log(result.data.result)
        if(result.data.result!=undefined){
         context.commit("setUname",result.data.result.uname)
         alert('登陆成功')

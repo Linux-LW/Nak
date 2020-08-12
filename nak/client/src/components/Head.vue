@@ -56,7 +56,8 @@ export default {
     data(){
         return{
             keyword:'',
-            timer:null
+            timer:null,
+            shp:''
         }
     },
     computed: {
@@ -65,15 +66,18 @@ export default {
     },
     methods: {
         ...mapMutations(["setUname"]),
+
         logout(){
             let msg="您确定需要退出登陆吗？"
             if(confirm(msg)==true){
-                this.setUname('');
+                this.setUname(''); 
+                this.$store.state.car=[]
                 localStorage.clear();
                 sessionStorage.clear();
-              
+               
             }
         },
+        
         toShop(){
             if(!localStorage.uname){
                 alert('请先登录您的账号密码')

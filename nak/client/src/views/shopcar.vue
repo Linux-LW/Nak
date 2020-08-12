@@ -1,5 +1,5 @@
 <template>
-    <div class="shop" v-if="shp.length>0">
+    <div class="shop" v-if=" this.$store.state.car.length>0">
         <div class="shop_body">
             <h3>我的购物车</h3>
             <table border="1" cellspacing='0' cellpadding='0'>
@@ -12,7 +12,7 @@
                     <th>总价</th>
                     <th>操作</th>
                 </tr>
-                <tr v-for="(i,k) in shp" :key="k" >
+                <tr v-for="(i,k) in this.$store.state.car" :key="k" >
                     <td> <a href="javascript:;"><img :src="i.purl" alt=""></a>&nbsp;{{i.pname}}</td>
                     <td>{{i.pnumber}}</td>
                     <td>无</td>
@@ -22,6 +22,7 @@
                             <input readonly :value="i.addCount">
                             <button @click="add(i)">+</button>
                         </div>
+                    
                     </td>
                     <td>￥{{i.price}}元</td>
                     <td>￥{{(i.price*i.addCount).toFixed(2)}}元</td>
@@ -60,25 +61,26 @@ export default {
     },    
     methods: {
         minus(i){
-            if(i.count>1){
-                i.count--;
+            if(i.addCount>1){
+                i.addCount--;
             }
         },
         add(i){
-            i.count++;
+           i.addCount++
+            
         },
         remove(i){ 
         let removeStr ="您确定删除该商品吗？"
         if(confirm(removeStr)==true){
-            this.shp=this.shp.filter((item)=>{
+             this.$store.state.car= this.$store.state.car.filter((item)=>{
             return item !=i;
            })
             //获取到最新的一个对象
             //把这个对象转换成json字符串，存入本地缓存
-            let shopcar =JSON.stringify(this.shp);
+            let shopcar =JSON.stringify( this.$store.state.car);
             localStorage.setItem('car',shopcar)
             //将移除之后的数据重新赋值给 store商店 里面的 car数组，以后取得时候，就会得到修改之后的car数组
-            this.$store.state.car=this.shp
+            this.$store.state.car= this.$store.state.car
         }
         },
         clear(){
@@ -91,20 +93,20 @@ export default {
             
            }
         },
-        showcar(){
-         this.shp=this.$store.state.car;
-        }
+        // showcar(){
+        
+        // }
     },
     
     mounted() {
         // console.log(localStorage.getItem("shopcar"))
-       this.showcar();
+    //    this.showcar();
     },
     computed: {
    
         total(){
             let sum=0;
-            for(var i of this.shp){
+            for(var i of  this.$store.state.car){
                 sum+=i.price*i.addCount;
             }
             return sum
